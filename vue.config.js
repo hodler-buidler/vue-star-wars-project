@@ -10,15 +10,16 @@ module.exports = {
     configureWebpack: {
 		resolve: {
 			alias: {
-				'assets': path.resolve(__dirname, 'src/assets')
+				'assets': path.resolve(__dirname, 'src/assets'),
+				'styles': path.resolve(__dirname, 'src/styles')
 			}
 		}
-	}
-    // css: {
-    //     loaderOptions: {
-    //         sass: {
-    //             prependData: `@import "~bulma/sass/utilities/_all"`
-    //         }
-    //     }
-    // },
+	},
+    css: {
+        loaderOptions: {
+            scss: {
+                prependData: `@import "~styles/_utils";`
+            }
+        }
+    },
 };
