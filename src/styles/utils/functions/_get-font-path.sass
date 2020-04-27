@@ -1,0 +1,7 @@
+/** Returns font path for particular font **/
+@function get-font-path($font-key, $font-mime: ttf)
+  $font-paths-collection: map-get($fonts_paths, $font-mime)
+  @return map_get($font-paths-collection, $font-key)
+
+  @warn "Unknown `#{$font-key}` font type in `#{$font-mime}` $fonts-paths collection"
+  @return null

@@ -1,0 +1,22 @@
+/*** SETTING DIFFERENT FONTS TYPES ***/
+$fonts: ()
+$fonts: map_merge($fonts, (default: "Merriweather"))
+$fonts: map_merge($fonts, (bold: "Merriweather Bold"))
+$fonts: map_merge($fonts, (light: "Merriweather Light"))
+
+$fonts: map_merge($fonts, (alternative: "Guerrilla"))
+
+
+/*** SETTING DIFFERENT FONTS PATHS ***/
+
+// Global font paths storage
+$fonts_paths: ()
+
+$fonts_paths_ttf: ()
+$fonts_paths_ttf: map_merge($fonts_paths_ttf, (default: "#{$assets_folder}fonts/Merriweather-Regular.ttf"))
+$fonts_paths_ttf: map_merge($fonts_paths_ttf, (bold: "#{$assets_folder}fonts/Merriweather-Bold.ttf"))
+$fonts_paths_ttf: map_merge($fonts_paths_ttf, (light: "#{$assets_folder}fonts/Merriweather-Light.ttf"))
+
+$fonts_paths_ttf: map_merge($fonts_paths_ttf, (alternative: "#{$assets_folder}fonts/guerrilla.ttf"))
+
+$fonts_paths: map_merge($fonts_paths, (ttf: $fonts_paths_ttf))

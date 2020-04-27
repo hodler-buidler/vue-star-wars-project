@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = {
     publicPath: './',
     pages: {
@@ -5,6 +7,13 @@ module.exports = {
             entry: 'src/app/main.js'
         }
     },
+    configureWebpack: {
+		resolve: {
+			alias: {
+				'assets': path.resolve(__dirname, 'src/assets')
+			}
+		}
+	}
     // css: {
     //     loaderOptions: {
     //         sass: {
