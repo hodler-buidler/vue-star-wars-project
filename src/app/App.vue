@@ -4,5 +4,6 @@
   </div>
 </template>
 
-<style>
+<style lang='scss'>
+  @import '~styles/core';
 </style>
