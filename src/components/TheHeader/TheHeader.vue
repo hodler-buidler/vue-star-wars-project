@@ -38,7 +38,7 @@
 }
 
 .brand-logo {
-    width: 33vw;
+    width: 33vw; // making header block 1/3 of screen
     @extend %removeUserSelect;
     @include flex(center, center, column);
 

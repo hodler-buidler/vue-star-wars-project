@@ -20,6 +20,8 @@
 </script>
 
 <style lang="scss" scoped>
+$radius_spin: 70px;
+
 .loader {
     @extend %removeUserSelect;
     width: 64px;
@@ -35,8 +37,8 @@
 }
 
 @keyframes spinner {
-    from { transform: rotate(0deg) translateX(-80px); }
-    to   { transform: rotate(360deg) translateX(-80px); }
+    from { transform: rotate(0deg) translateX(-$radius_spin); }
+    to   { transform: rotate(360deg) translateX(-$radius_spin); }
 }
 
 @keyframes fadeTail {

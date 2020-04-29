@@ -1,12 +1,32 @@
 @import '~styles/utils';
 @import 'reset-css';
 @import '~styles/core/fonts';
+@import '~styles/core/animations';
 
 html {
   font-size: 18px;
 }
 
+::selection {
+  background: color(primary);
+}
+
 body {
   font-family: font(default);
   background: color(default);
+  color: color(secondary);
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    flex: 1 0 auto;
+  }
+
+  &__footer {
+    flex: 0 0 auto;
+  }
 }
