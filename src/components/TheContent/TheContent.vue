@@ -1,6 +1,6 @@
 <template>
     <div class='content'>
-        <transition name='fade'>
+        <transition name='fadeOut'>
             <div v-if='isLoading' class='global-loader-container'>
                 <ui-loader />
             </div>
