@@ -17,15 +17,17 @@
           <ui-loader />
         </div>
 
-        <div v-show='isPeopleFound' class='cards-container page-content__item'>
-          <person-card
-            v-for='person in people'
-            :person='person'
-            :key='person.id'
-          />
+        <transition name='fadeIn'>
+          <div v-show='isPeopleFound' class='cards-container page-content__item'>
+            <person-card
+              v-for='person in people'
+              :person='person'
+              :key='person.id'
+            />
 
-          <intersection-observer @intersect='peopleListEndIntersected' />
-        </div>
+            <intersection-observer @intersect='peopleListEndIntersected' />
+          </div>
+        </transition>
 
         <div class='load-more-spinner' v-show="isInfiniteScrollLoading">
           <ui-simple-loader />
@@ -89,6 +91,7 @@ export default {
          * array[people] - search result
          */
         get: function() {
+          if (!this.searchValue) return null;
           return this.relevantSearchResult;
         },
         set: function(value) {
@@ -96,7 +99,6 @@ export default {
             if (Array.isArray(value) && value.length) this.relevantSearchResult = value;
             else this.relevantSearchResult = -1;
           }
-          else this.relevantSearchResult = null;
         }
       }
     },
