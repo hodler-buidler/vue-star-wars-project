@@ -1,7 +1,7 @@
 var getOneRequest = function createGetOneRequest({id}) {
     return {
         method: 'get',
-        url: `/species/${id}`
+        url: `/planets/${id}`
     };
 };
 
