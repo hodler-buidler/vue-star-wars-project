@@ -1,6 +1,7 @@
 /** FADE **/
 .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
+    transition: opacity 1s;
+    transition-timing-function: linear;
 }
 
 .fade-enter, .fade-leave-to {
