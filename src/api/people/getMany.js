@@ -1,14 +1,14 @@
-import http from '../http';
-
-async function getMany({page = 1, search = null}) {
+var getManyRequest = function createGetManyRequest({page = 1, search = null} = {}) {
     var params = {
         page
     };
     if (search) params.search = search; 
 
-    return await http.get('/people', {
+    return {
+        method: 'get',
+        url: '/people',
         params
-    });
-}
+    };
+};
 
-export default getMany;
+export default getManyRequest;
