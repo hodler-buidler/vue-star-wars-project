@@ -20,8 +20,8 @@ function sendRequestAsync(request, requestName = null, params) {
         throw new Error('You can provide either request object or namespace and name which belongs to particular request.')
     }
 
-    if (request.isFullUrl) {
-        return http({baseUrl: request.url})(request);
+    if (request.fullUrl) {
+        return http({baseUrl: request.fullUrl})(request);
     } 
 
     return http()(request);

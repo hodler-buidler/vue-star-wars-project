@@ -23,6 +23,12 @@
             :person='person'
             :key='person.id'
           />
+
+          <intersection-observer @intersect='peopleListEndIntersected' />
+        </div>
+
+        <div class='load-more-spinner' v-show="isInfiniteScrollLoading">
+          <ui-simple-loader />
         </div>
 
         <div class='cards-not-found-message page-content__item' v-show='isPeopleNotFound'>
@@ -37,21 +43,29 @@
 import TheHeader from '@/components/TheHeader/TheHeader';
 import TheContent from '@/components/TheContent/TheContent';
 import UiTextField from '@/ui/UiTextField/UiTextField';
+import UiSimpleLoader from '@/ui/UiSimpleLoader/UiSimpleLoader';
 import UiLoader from '@/ui/UiLoader/UiLoader';
 import PersonCard from '@/components/PersonCard/PersonCard';
 import debounce from '@/utils/helpers/debounce';
+import IntersectionObserver from '@/components/IntersectionObserver/IntersectionObserver';
 
 const DEBOUNCE_DELAY = 500;
 
 export default {
     name: 'HomePage',
-    components: {TheHeader, TheContent, UiTextField, PersonCard, UiLoader},
+    components: {TheHeader, TheContent, UiTextField, PersonCard, UiLoader, IntersectionObserver, UiSimpleLoader},
     data() {
       return {
+        isInitialLoading: true,
+
         searchValue: '',
         isSearching: false,
         relevantSearchResult: null,
-        isInitialLoading: true
+
+        isPeopleLoading: false,
+        lastPeopleResponse: null,
+        lastSearchPeopleResponse: null,
+        isInfiniteScrollLoading: false
       }
     },
     computed: {
@@ -69,6 +83,11 @@ export default {
       },
 
       searchResult: {
+        /**
+         * null - search is unneccesary at the moment
+         * -1 - nothing were found
+         * array[people] - search result
+         */
         get: function() {
           return this.relevantSearchResult;
         },
@@ -86,25 +105,80 @@ export default {
     },
     methods: {
       async loadPeopleWithSpecies() {
+        this.isPeopleLoading = true;
         var response = await this.$store.dispatch('people/load');
+        this.isPeopleLoading = false;
+
         if (this.isInitialLoading) this.isInitialLoading = false;
+
         if (response.isSuccess) this.loadSpeciesForPeople();
+
+        if (!response.isError) {
+          this.lastPeopleResponse = response;
+        }
       },
 
       async searchPeople() {
         if (this.searchValue) {
-          this.isSearching = true;
-          var response = await this.$store.dispatch('people/load', {search: this.searchValue});
-          if (!response.isError) this.searchResult = response.content.data.results;
-          this.isSearching = false;
+          this.isSearching = this.isPeopleLoading = true;
+          var response = await this.$store.dispatch('people/load', {
+            requestParams: {
+              search: this.searchValue
+            }
+          });
+          this.isSearching = this.isPeopleLoading = false;
+
+          if (!response.isError) {
+            this.searchResult = response.content.data.results;
+            this.lastSearchPeopleResponse = response;
+          }          
 
           if (response.isSuccess) this.loadSpeciesForPeople();
         }
       },
 
+      async loadMorePeople(url, isSearch) {
+        this.isPeopleLoading = this.isInfiniteScrollLoading = true;
+        var response = await this.$store.dispatch('people/load', {url});
+        this.isPeopleLoading =  this.isInfiniteScrollLoading = false;
+
+        if (!response.isError) {
+          if (isSearch) {
+            this.searchResult = [...this.searchResult, ...response.content.data.results];
+            this.lastSearchPeopleResponse = response;
+          } else {
+            this.lastPeopleResponse = response;
+          }
+        }          
+
+        if (response.isSuccess) this.loadSpeciesForPeople();
+      },
+
       loadSpeciesForPeople() {
         var dependentSpeciesIds = this.$store.getters['people/getAllDependentSpeciesIds'];
         this.$store.dispatch('species/loadByIds', dependentSpeciesIds);
+      },
+
+      peopleListEndIntersected() {
+         var data = this.retrieveLastResponseOrFail();
+         if (data) {
+           var [lastResponse, isSearch] = data;
+           this.loadMorePeople(lastResponse.content.data.next, isSearch);
+         }
+      },
+
+      retrieveLastResponseOrFail() {
+        if (this.isPeopleLoading) return false;
+
+        if (this.searchResult) {
+          if (!this.lastSearchPeopleResponse) return false;
+          if (!this.lastSearchPeopleResponse.content.data.next) return false;
+          return [this.lastSearchPeopleResponse, true];
+        } 
+
+        if (!this.lastPeopleResponse) return false;
+        if (!this.lastPeopleResponse.content.data.next) return false;
+        return [this.lastPeopleResponse, false];
       },
 
       debouncedSearch: debounce(function() {
@@ -148,5 +222,9 @@ $page-items-margin: 80px;
 
 .cards-not-found-message {
   text-align: center;
+}
+
+.load-more-spinner {
+  @include flex(center, center)
 }
 </style>

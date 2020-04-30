@@ -33,8 +33,15 @@ var people = {
         }
     },
     actions: {
-        async load(context, requestParams) {
-            var request = api.makeRequest('people', 'getMany', requestParams);
+        async load(context, {
+            requestParams = {},
+            url = null
+        } = {}) {
+            var request;
+
+            if (url) request = api.makeRequest('general', 'get', {url});
+            else request = api.makeRequest('people', 'getMany', requestParams);
+
             var cachedResponse = context.state.cache.check(request);
 
             if (!cachedResponse) {
@@ -46,12 +53,12 @@ var people = {
                     context.state.cache.add(request, response);
                     
                     return new Response('ok', response);
-                } catch ({response}) {
-                    return new Response('error', response)
+                } catch (error) {
+                    return new Response('error', error.response)
                 }
             }
             return new Response('cached', cachedResponse);
-        }
+        },
     }
 };
 
