@@ -5,19 +5,20 @@ import isEqual from 'lodash/isEqual';
  */
 function RequestsCache() {
     this.requests = [];
-    this.check = checkIfRequestUnique;
+    this.check = checkIfRequestUnique; // returns false or archived response
     this.add = collectRequest;
 }
 
 function checkIfRequestUnique(request) {
     for (let i = 0; i < this.requests.length; i++) {
-        if (isEqual(request, this.requests[i])) return true;
+        var [savedRequest, response] = this.requests[i];
+        if (isEqual(request, savedRequest)) return response;
     }
     return false;
 }
 
-function collectRequest(request) {
-    this.requests.push(request);
+function collectRequest(request, response) {
+    this.requests.push([request, response]);
 }
 
 export default RequestsCache;
