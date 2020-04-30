@@ -36,3 +36,11 @@ body {
   font-weight: bold;
   line-height: 1.25;
 }
+
+.simple-list {
+  @include flex(normal, normal, column);
+
+  &__item {
+    margin: 5px 0;
+  }
+}

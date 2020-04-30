@@ -1,40 +1,53 @@
 <template>
-    <div class='person-card'>
-        <div class='person-card__content'>
-            <div class='person-card__data-item'>
-                <ui-entity-avatar size='large' shape='round' :entity-string='person.name' />
-            </div>
-            <div class='person-card__name person-card__data-item'>
-                {{ person.name }}
-            </div>
-            <div class='person-card__species person-card__data-item'>
-                <span v-if='isSpeciesEmpty'>----</span>
-                <span v-else-if='isSpeciesLoading'>
-                    <ui-simple-loader />
-                </span>
-                <span v-else>
-                    <span v-for='(speciesItem, index) in personSpecies' :key='speciesItem.id'>
-                        {{ speciesItem.name }}
-                        <span v-show="!isLastSpeciesItem(index, personSpecies)">|</span>
+    <div>
+        <div @click='showDetails' class='person-card'>
+            <div class='person-card__content'>
+                <div class='person-card__data-item'>
+                    <ui-entity-avatar size='large' shape='round' :entity-string='person.name' />
+                </div>
+                <div class='person-card__name person-card__data-item'>
+                    {{ person.name }}
+                </div>
+                <div class='person-card__species person-card__data-item'>
+                    <span v-if='isSpeciesEmpty'>----</span>
+                    <span v-else-if='isSpeciesLoading'>
+                        <ui-simple-loader />
                     </span>
-                </span>
+                    <span v-else>
+                        <span v-for='(speciesItem, index) in personSpecies' :key='speciesItem.id'>
+                            {{ speciesItem.name }}
+                            <span v-show="!isLastSpeciesItem(index, personSpecies)">|</span>
+                        </span>
+                    </span>
+                </div>
             </div>
         </div>
+        <person-details-modal
+            :person='person'
+            :active='isPersonDetailsActive'
+            @close='closeDetails'
+        />
     </div>
 </template>
 
 <script>
     import UiEntityAvatar from '@/ui/UiEntityAvatar/UiEntityAvatar';
     import UiSimpleLoader from '@/ui/UiSimpleLoader/UiSimpleLoader';
+    import PersonDetailsModal from '@/components/PersonDetailsModal/PersonDetailsModal';
 
     export default {
         name: 'PersonCard',
-        components: {UiEntityAvatar, UiSimpleLoader},
+        components: {UiEntityAvatar, UiSimpleLoader, PersonDetailsModal},
         props: {
             person: {
                 type: Object,
                 required: true
             },
+        },
+        data() {
+            return {
+                isPersonDetailsActive: false
+            }
         },
         computed: {
             isSpeciesLoading() {
@@ -54,6 +67,14 @@
         methods: {
             isLastSpeciesItem(index, speciesArray) {
                 return index == (speciesArray.length - 1);
+            },
+
+            showDetails() {
+                this.isPersonDetailsActive = true;
+            },
+
+            closeDetails() {
+                this.isPersonDetailsActive = false;
             }
         }
     }
