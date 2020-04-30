@@ -2,7 +2,7 @@ function Response(status, data = null) {
     this.isSuccess = status == 'ok';
     this.isCached = status == 'cached';
     this.isError = status == 'error';
-    this.response = data;
+    this.content = data;
 }
 
 export default Response;
