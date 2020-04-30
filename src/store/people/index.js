@@ -33,20 +33,24 @@ var people = {
         }
     },
     actions: {
-        async load(context) {
-            var request = api.makeRequest('people', 'getMany');
-            if (!context.state.cache.check(request)) {
+        async load(context, requestParams) {
+            var request = api.makeRequest('people', 'getMany', requestParams);
+            var cachedResponse = context.state.cache.check(request);
+
+            if (!cachedResponse) {
                 try {
                     var response = await api.sendRequestAsync(request);
                     var people = response.data.results;
+
                     context.commit(ADD_PEOPLE_MUTATION, people);
-                    context.state.cache.add(request);
-                    return new Response('ok', people);
+                    context.state.cache.add(request, response);
+                    
+                    return new Response('ok', response);
                 } catch ({response}) {
                     return new Response('error', response)
                 }
             }
-            return new Response('cached');
+            return new Response('cached', cachedResponse);
         }
     }
 };

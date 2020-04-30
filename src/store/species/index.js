@@ -31,9 +31,11 @@ var species = {
             var requests = [];
             ids.forEach(function loadItemById(id) {
                 var request = api.makeRequest('species', 'getOne', {id});
-                if (!context.state.cache.check(request)) {
+                var cachedResponse = context.state.cache.check(request);
+
+                if (!cachedResponse) {
                     requests.push(api.sendRequestAsync(request));
-                    context.state.cache.add(request);
+                    context.state.cache.add(request, true); // do not collect response
                 }
             });
 
