@@ -135,7 +135,7 @@ $icon-font-size: 1.4rem;
 
             &:focus {
                 color: color(alternative);
-                border-color: transparent;
+                border-color: color(alternative);
             }
         }
     }
