@@ -50,27 +50,35 @@ export default {
       return {
         searchValue: '',
         isSearching: false,
-        searchResult: null,
+        relevantSearchResult: null,
         isInitialLoading: true
       }
     },
     computed: {
       people() {
-        if (this.searchResult !== null) return this.searchResult;
+        if (Array.isArray(this.searchResult)) return this.searchResult;
         return this.$store.getters['people/getAll'];
       },
 
       isPeopleFound() {
-        return this.people.length && !this.isSearching;
+        return !this.isSearching && this.people.length && this.searchResult !== -1;
       },
 
       isPeopleNotFound() {
-        return !this.people.length && !this.isSearching;
-      }
-    },
-    watch: {
-      searchValue(value) {
-        if (!value) this.searchResult = null;
+        return !this.isSearching && this.searchResult === -1;
+      },
+
+      searchResult: {
+        get: function() {
+          return this.relevantSearchResult;
+        },
+        set: function(value) {
+          if (this.searchValue) {
+            if (Array.isArray(value) && value.length) this.relevantSearchResult = value;
+            else this.relevantSearchResult = -1;
+          }
+          else this.relevantSearchResult = null;
+        }
       }
     },
     created() {
