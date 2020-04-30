@@ -27,8 +27,8 @@
   color: color(secondary);
   display: inline-block;
   position: relative;
-  width: 1rem;
-  height: 1rem;
+  width: 25px;
+  height: 25px;
 }
 .lds-spinner div {
   transform-origin: 0.8rem 0.8rem;
