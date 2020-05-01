@@ -35,7 +35,6 @@
 
             trackDistanceToTop: debounce(function () {
                 this.distanceToTop = window.scrollY;
-                console.log('smth');
             }, 100)
         }
     }

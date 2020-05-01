@@ -5,6 +5,7 @@ import Toasted from 'vue-toasted';
 Vue.use(Toasted);
 
 const proxyToEscapeCors = 'https://cors-anywhere.herokuapp.com/';
+const requestsDelay = 2000;
 
 var instance = function createAxiosInstance({
     baseUrl = 'https://swapi.dev/api/'
@@ -14,6 +15,11 @@ var instance = function createAxiosInstance({
         headers: {
             'X-Requested-With': 'XMLHttpRequest'
         }
+    });
+
+    // DELAY ON ALL REQUESTS
+    instance.interceptors.request.use((config) => {
+        return new Promise(resolve => setTimeout(() => resolve(config), requestsDelay));
     });
 
     instance.interceptors.response.use(function(response) {
