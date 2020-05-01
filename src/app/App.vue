@@ -3,16 +3,18 @@
     <div class='page__content'>
       <router-view/>
     </div>
+    <ui-scroll-top />
     <the-footer class='page__footer' />
   </div>
 </template>
 
 <script>
 import TheFooter from '@/components/TheFooter/TheFooter';
+import UiScrollTop from '@/ui/UiScrollTop/UiScrollTop';
 
 export default {
   name: 'App',
-  components: {TheFooter}
+  components: {TheFooter, UiScrollTop}
 }
 </script>
 
