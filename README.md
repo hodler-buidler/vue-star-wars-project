@@ -1,6 +1,7 @@
 # Vue-star-wars-project
 
 Выполненное тестовое задание: https://docs.google.com/document/d/1gEbnYBPxpyUvsjGAUpwqcZkCK21m1mTDG-2FeiGa5f0/edit#
+
 Демо (без задержки лоадеров в 2 секунды): https://nikitosgolubev.github.io/star-wars/#/
 (с задержкой - дев версия: npm install, npm run serve).
 
