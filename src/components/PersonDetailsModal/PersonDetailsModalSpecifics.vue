@@ -159,4 +159,14 @@
         font-weight: bold;
     }
 }
+
+@media screen and (max-width: 767px) {
+    .details-specifics {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-item {
+        grid-template-columns: 150px auto;
+    }
+}
 </style>

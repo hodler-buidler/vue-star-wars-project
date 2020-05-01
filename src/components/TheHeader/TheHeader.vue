@@ -56,4 +56,14 @@
         width: 100%;
     }
 }
+
+@media screen and (max-width: 767px) {
+    .brand-logo {
+        width: 212px;
+
+        &__sign {
+            font-size: 1rem;
+        }
+    }
+}
 </style>

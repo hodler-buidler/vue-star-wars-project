@@ -81,12 +81,16 @@
 </script>
 
 <style lang="scss" scoped>
+$card-vertical-padding: 92px;
+$card-horizontal-padding: 15px;
+$card-vertical-padding-responsive: 33px;
+
 .person-card {
     background: color(dark);
     border-radius: 8px;
     box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
     @include flex(center, center);
-    padding: 92px 15px;
+    padding: $card-vertical-padding $card-horizontal-padding;
     cursor: pointer;
     @extend %mediumTransition;
     text-align: center;
@@ -109,4 +113,10 @@
         margin: 6px 0;
     }
 }
+
+@media screen and (max-width: 1024px) {
+    .person-card {
+        padding: $card-vertical-padding-responsive $card-horizontal-padding;
+    }
+}    
 </style>

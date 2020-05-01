@@ -40,4 +40,10 @@
     width: 100%;
     height: 100%;
 }
+
+@media screen and (max-width: 767px) {
+    .content {
+        padding: 0 24px;
+    }
+}
 </style>

@@ -34,7 +34,7 @@
         </div>
 
         <div class='cards-not-found-message page-content__item' v-show='isPeopleNotFound'>
-          <span class='alert-text'>Unfortunatelly, we couldn't find anything :(</span>
+          <span class='alert-text'>Unfortunatelly, we couldn't find anything.</span>
         </div>
       </div>
     </the-content>
@@ -196,13 +196,17 @@ export default {
 
 <style lang='scss' scoped>
 $page-items-margin: 80px;
+$page-items-margin-tablet: 35px;
+$page-items-margin-mobile: 22px;
 
 .page-content {
   @include flex(normal, normal, column);
-  margin: $page-items-margin 0;
+  margin-top: $page-items-margin;
+  margin-bottom: $page-items-margin;
 
   &__item {
-    margin: $page-items-margin 0;
+    margin-top: $page-items-margin;
+    margin-bottom: $page-items-margin;
   }
 }
 
@@ -213,7 +217,7 @@ $page-items-margin: 80px;
 
 .cards-searching-loader {
   @include flex(center, center);
-  margin-top: 100px;
+  margin-top: 70px;
 }
 
 .cards-container {
@@ -228,5 +232,43 @@ $page-items-margin: 80px;
 
 .load-more-spinner {
   @include flex(center, center)
+}
+
+@media screen and (max-width: 1024px) {
+  .page-content {
+      margin-top: $page-items-margin-tablet;
+      margin-bottom: $page-items-margin-tablet;
+
+      &__item {
+        margin-top: $page-items-margin-mobile;
+        margin-bottom: $page-items-margin-tablet;
+      }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page-content {
+      margin-top: $page-items-margin-mobile;
+      margin-bottom: $page-items-margin-mobile;
+
+      &__item {
+        margin-top: $page-items-margin-mobile;
+        margin-bottom: $page-items-margin-mobile;
+      }
+  }
+
+  .cards-container {
+    grid-gap: 24px;
+  }
+}
+
+@media screen and (max-width: 567px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+
+  .cards-search {
+    width: 100%;
+  }
 }
 </style>

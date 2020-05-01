@@ -89,4 +89,14 @@
         margin: 20px 0;
     }
 }
+
+@media screen and (max-width: 767px) {
+    .person-details {
+        justify-content: normal;
+
+        &__separator {
+            margin: 30px 0;
+        }
+    }
+}
 </style>

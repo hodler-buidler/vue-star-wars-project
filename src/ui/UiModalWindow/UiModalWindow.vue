@@ -85,4 +85,13 @@
         opacity: 0.7;
     }
 }
+
+@media screen and (max-width: 767px) {
+    .modal-window {
+        padding: 24px;
+        padding-top: 48px;
+        width: 100vw;
+        height: 100vh;
+    }
+}
 </style>
