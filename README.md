@@ -1,1 +1,2 @@
-Vue-star-wars-project
+# Star-wars API Vue
+DEMO: https://hodler-buidler.github.io/star-wars
